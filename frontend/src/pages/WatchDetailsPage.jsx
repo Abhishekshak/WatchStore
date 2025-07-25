@@ -17,6 +17,7 @@ const WatchDetailsPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { user } = useAuth();
+  const { addToCart } = useCart();
 
   const [watchData, setWatchData] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);
@@ -53,24 +54,26 @@ const WatchDetailsPage = () => {
     baseURL + img.replace(/\\/g, '/')
   );
 
-const { addToCart } = useCart();
+  const handleAddToCart = () => {
+    if (!user) {
+      alert('Please log in to add items to your cart.');
+      navigate('/login');
+      return;
+    }
 
-const handleAddToCart = () => {
-  const cartItem = {
-    _id: watchData._id,
-    name: watchData.name,
-    brand: watchData.brand,
-    price: watchData.price,
-    discountedPrice: watchData.discountedPrice,
-    image: normalizedImages[0],
-    quantity: 1,
+    const cartItem = {
+      _id: watchData._id,
+      name: watchData.name,
+      brand: watchData.brand,
+      price: watchData.price,
+      discountedPrice: watchData.discountedPrice,
+      image: normalizedImages[0],
+      quantity: 1,
+    };
+
+    addToCart(cartItem);
+    setOpenSnackbar(true);
   };
-
-  addToCart(cartItem);  // This updates React state + localStorage internally
-
-  setOpenSnackbar(true);
-};
-
 
   const handleCloseSnackbar = () => setOpenSnackbar(false);
   const handleTabChange = (_, newVal) => setTabValue(newVal);

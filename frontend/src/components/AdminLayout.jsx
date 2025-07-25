@@ -14,13 +14,18 @@ import {
   ListItemButton,
   Divider,
   Tooltip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
 } from '@mui/material';
 import {
   Menu as MenuIcon,
   Dashboard as DashboardIcon,
   People as PeopleIcon,
   ShoppingCart as ShoppingCartIcon,
-  Settings as SettingsIcon,
   Logout as LogoutIcon,
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -30,6 +35,7 @@ const drawerWidth = 240;
 
 function AdminLayout({ children }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [logoutDialogOpen, setLogoutDialogOpen] = useState(false); // New state for dialog
   const navigate = useNavigate();
   const location = useLocation();
   const { logout } = useAuth();
@@ -38,9 +44,21 @@ function AdminLayout({ children }) {
     setMobileOpen(!mobileOpen);
   };
 
-  const handleLogout = () => {
+  // Open confirmation dialog on logout button click
+  const handleLogoutClick = () => {
+    setLogoutDialogOpen(true);
+  };
+
+  // Confirm logout action
+  const handleLogoutConfirm = () => {
+    setLogoutDialogOpen(false);
     logout();
     navigate('/login');
+  };
+
+  // Cancel logout action
+  const handleLogoutCancel = () => {
+    setLogoutDialogOpen(false);
   };
 
   const currentPath = location.pathname.toLowerCase();
@@ -50,7 +68,6 @@ function AdminLayout({ children }) {
     { text: 'Users', icon: <PeopleIcon />, path: '/admin/users' },
     { text: 'Watches', icon: <PeopleIcon />, path: '/admin/watches' },
     { text: 'Orders', icon: <ShoppingCartIcon />, path: '/admin/orders' },
-    { text: 'Settings', icon: <SettingsIcon />, path: '/admin/settings' },
   ];
 
   const drawer = (
@@ -93,7 +110,7 @@ function AdminLayout({ children }) {
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
 
-      {/* Top AppBar with only Logout */}
+      {/* Top AppBar */}
       <AppBar
         position="fixed"
         sx={{
@@ -114,7 +131,7 @@ function AdminLayout({ children }) {
           <Tooltip title="Logout">
             <IconButton
               color="inherit"
-              onClick={handleLogout}
+              onClick={handleLogoutClick} // Show dialog instead of direct logout
               sx={{ display: 'flex', alignItems: 'center' }}
             >
               <LogoutIcon />
@@ -164,6 +181,29 @@ function AdminLayout({ children }) {
       >
         {children}
       </Box>
+
+      {/* Logout Confirmation Dialog */}
+      <Dialog
+        open={logoutDialogOpen}
+        onClose={handleLogoutCancel}
+        aria-labelledby="logout-dialog-title"
+        aria-describedby="logout-dialog-description"
+      >
+        <DialogTitle id="logout-dialog-title">Confirm Logout</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="logout-dialog-description">
+            Are you sure you want to logout?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleLogoutCancel} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleLogoutConfirm} color="error" autoFocus>
+            Logout
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

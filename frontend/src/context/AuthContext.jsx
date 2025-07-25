@@ -1,11 +1,15 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem('user');
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
 
+  // Save user and token to localStorage on login
   async function login({ email, password }) {
     try {
       const response = await axios.post('http://localhost:3001/auth/login', {
@@ -19,9 +23,11 @@ export function AuthProvider({ children }) {
         throw new Error('Invalid login response');
       }
 
-      setUser(user); // Save user in React state
+      localStorage.setItem('authToken', token);
+      localStorage.setItem('user', JSON.stringify(user));
+      setUser(user);
 
-      return { token, user }; // Return token and user for use in Login component
+      return { token, user };
     } catch (error) {
       throw new Error(
         error.response?.data?.message || 'Login failed. Please try again.'
@@ -40,7 +46,7 @@ export function AuthProvider({ children }) {
         password,
       });
 
-      return response.data; // e.g. { message: "User registered successfully" }
+      return response.data;
     } catch (error) {
       throw new Error(
         error.response?.data?.message || 'Registration failed. Please try again.'
@@ -50,7 +56,8 @@ export function AuthProvider({ children }) {
 
   function logout() {
     setUser(null);
-    localStorage.removeItem('authToken'); // Optional: clear token on logout
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('user');
   }
 
   return (

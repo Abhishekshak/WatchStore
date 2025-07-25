@@ -19,6 +19,8 @@ import AdminLayout from './components/AdminLayout';
 import Watches from './pages/admin/WatchesPage';
 import AddWatch from './pages/admin/AddWatch';
 import EditWatch from './pages/admin/EditWatch';
+import MyOrders from './pages/MyOrders';
+import PaymentSuccess from './pages/PaymentSuccess';
 
 function App() {
   const location = useLocation();
@@ -37,6 +39,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/my-orders" element={<MyOrders />} />
+            <Route path="/payment-success" element={<PaymentSuccess />} />
             <Route path="/watch/:id" element={<WatchDetailsPage />} />
             <Route path="/collections" element={<Collections />} />
             <Route path="/cart" element={<Cart />} />

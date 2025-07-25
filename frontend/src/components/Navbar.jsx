@@ -24,12 +24,11 @@ import { useCart } from '../context/CartContext';
 
 function Navbar() {
   const { user, logout } = useAuth();
-  const { cartItems } = useCart(); // get cartItems array from context
+  const { cartItems } = useCart();
 
   const [openDialog, setOpenDialog] = useState(false);
   const [showSnackbar, setShowSnackbar] = useState(false);
 
-  // Calculate total cart count from cartItems
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   const handleLogoutConfirm = () => {
@@ -48,6 +47,7 @@ function Navbar() {
       <AppBar position="fixed" sx={{ backgroundColor: 'black', color: 'white' }}>
         <Container maxWidth="xl">
           <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', padding: 2 }}>
+            {/* Logo Section */}
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <WatchOutlinedIcon
                 sx={{
@@ -70,6 +70,7 @@ function Navbar() {
               </Typography>
             </Box>
 
+            {/* Right Side Buttons */}
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
               <Button
                 color="inherit"
@@ -102,6 +103,17 @@ function Navbar() {
                   <Typography variant="body1" sx={{ color: 'white', mr: 2, fontWeight: 'medium' }}>
                     Welcome, {displayName}
                   </Typography>
+
+                  {/* My Orders Button */}
+                  <Button
+                    color="inherit"
+                    component={Link}
+                    to="/my-orders"
+                    sx={{ fontSize: '0.875rem', textTransform: 'none', color: 'white' }}
+                  >
+                    My Orders
+                  </Button>
+
                   <Button
                     color="inherit"
                     onClick={() => setOpenDialog(true)}
@@ -116,6 +128,7 @@ function Navbar() {
         </Container>
       </AppBar>
 
+      {/* Logout Confirmation Dialog */}
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
         <DialogTitle>Are you sure you want to logout?</DialogTitle>
         <DialogActions>
@@ -124,6 +137,7 @@ function Navbar() {
         </DialogActions>
       </Dialog>
 
+      {/* Snackbar for Logout */}
       <Snackbar
         open={showSnackbar}
         autoHideDuration={3000}

@@ -37,7 +37,7 @@ function Register() {
     onSubmit: async (values, { setSubmitting, setFieldError }) => {
       try {
         const { confirmPassword, ...cleanedValues } = values;
-        const res = await axios.post('http://localhost:3001/register', cleanedValues);
+        const res = await axios.post('http://localhost:3001/auth/register', cleanedValues);
 
         // Show success snackbar
         setSnackbarOpen(true);
