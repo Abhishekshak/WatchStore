@@ -72,7 +72,6 @@ router.post('/verify', async (req, res) => {
       });
 
       await newOrder.save();
-
       return res.json({ success: true, message: 'Payment verified and order saved.' });
     } else {
       return res.status(400).json({ success: false, message: 'Payment not completed.' });
