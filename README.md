@@ -6,7 +6,7 @@ WatchStore is a modern full-stack e-commerce web application built using the **M
 
 ## 🎥 Demo Video
 
-👉 [Watch Demo](https://github.com/user-attachments/assets/374b123f-6785-46f9-b168-296177562aca)
+https://github.com/user-attachments/assets/374b123f-6785-46f9-b168-296177562aca
 
 ---
 
