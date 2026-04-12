@@ -1,4 +1,4 @@
-#⌚ WatchStore – Full Stack E-Commerce Platform
+# ⌚ WatchStore – Full Stack E-Commerce Platform
 
 WatchStore is a modern full-stack e-commerce web application built using the **MERN stack**. It allows users to browse premium watches, manage their cart, and place orders, while providing an admin panel for managing products and orders.
 
